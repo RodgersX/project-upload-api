@@ -32,7 +32,7 @@ exports.createFeed = (req, res, next) => {
     feed.save().then(result => {
         res.status(201).json({
             message: 'Feed created successfully',
-            post: result
+            feed: result
         })
     }).catch(err => {
         if(!err.statusCode) {

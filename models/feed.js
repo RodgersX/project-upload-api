@@ -9,6 +9,10 @@ const feedSchema = new Schema({
     description: {
         type: String,
         required: true
+    },
+    image: {
+        data: Buffer,
+        type: String
     }
 }, { timestamps: true })
 
