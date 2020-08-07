@@ -41,7 +41,7 @@ exports.login = (req, res, next) => {
     const password = req.body.password
     let loadedUser
 
-    User.findOne({ email: email}).then(user => {
+    User.findOne({ email: email }).then(user => {
         if(!user) {
             const error = new Error('No user with this email')
             error.statusCode = 401
@@ -63,7 +63,10 @@ exports.login = (req, res, next) => {
             'somesupersecretsecret', 
             { expiresIn: '1h' }
         )
-        res.status(200).json({ token: token, userId: loadedUser._id.toString() })
+        res.status(200).json({ 
+            token: token,
+            userId: loadedUser._id.toString()
+        })
     }).catch(err => {
         if(!err.statusCode) {
             err.statusCode = 500

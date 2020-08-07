@@ -1,11 +1,11 @@
 const { validationResult } = require('express-validator/check')
 
 const Feed = require('../models/feed')
-const { findByIdAndRemove } = require('../models/feed')
+
 
 exports.getFeeds = (req, res, next) => {
     Feed.find().then(feeds => {
-        res.status(200).json({ message: 'fetched feeds successfully', feeds: feeds})
+        res.status(200).json({ message: 'fetched feeds successfully', feeds: feeds })
     }).catch(err => {
          if(!err.statusCode) {
             err.statusCode = 500
@@ -21,13 +21,20 @@ exports.createFeed = (req, res, next) => {
         error.statusCode = 422
         throw error
     }
-    
+
     const title = req.body.title
     const description = req.body.description
+    const image = req.file
+
+    if(!image) {
+        return res.status(401).json({ message: 'Attached file is not an image' })
+    }
+    const imageUrl = image.path
 
     const feed = new Feed({
         title: title,
         description: description,
+        image: imageUrl
     })
     feed.save().then(result => {
         res.status(201).json({
